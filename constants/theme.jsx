@@ -32,7 +32,7 @@ export const COLORS = {
 export const SIZES = {
   // global sizes
   base: 8,
-  font: 14,
+  fontSize: 14,
   radius: 12,
   padding: 24,
 

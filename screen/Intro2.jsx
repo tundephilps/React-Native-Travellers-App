@@ -31,34 +31,34 @@ const Intro2 = () => {
           style={styles.gradient}
         >
           {/* Your content here */}
-          <Text style={styles.text}>Traveling the Globe Just got easier</Text>
-          <Text style={styles.para}>
-            Discover More than 1200 tourist Destinations at your finger tips...
-          </Text>
-
-          <TouchableOpacity onPress={() => navigation.navigate("Discover")}>
+          <View style={styles.write}>
+            <Text style={styles.text}>Traveling the Globe Just got easier</Text>
+            <Text style={styles.para}>
+              Discover More than 1200 tourist Destinations at your finger
+              tips...
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              margin: "auto",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onPress={() => navigation.navigate("Discover")}
+          >
             <View
               style={{
-                flex: 1,
+                display: "flex",
                 backgroundColor: "orange",
-                width: "88%",
+                width: 350,
                 justifyContent: "center",
                 alignItems: "center",
                 margin: "auto",
-                padding: "20px",
-                borderRadius: "40px",
-                marginTop: "20px",
+                padding: 10,
+                borderRadius: 40,
               }}
             >
-              <Text
-                style={{
-                  textAlign: "center",
-                  color: "#fff",
-                  font: "10px",
-                }}
-              >
-                Get Started{" "}
-              </Text>
+              <Text style={styles.started}>Get Started</Text>
             </View>
           </TouchableOpacity>
         </LinearGradient>
@@ -75,35 +75,80 @@ const styles = StyleSheet.create({
   imageBackground: {
     flex: 1,
     width: "100%",
-    height: "65%",
+    height: "70%",
   },
   gradient: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: "30%",
-    height: "70%", // Adjust this value to control the gradient's height
+    marginTop: "30%",
+    height: "75%", // Adjust this value to control the gradient's height
+  },
+  write: {
+    height: "40%",
+    marginTop: "70%",
   },
   text: {
-    fontSize: "40px",
-    fontWeight: "900",
+    fontSize: 35,
+    fontWeight: "bold",
     color: "#fff",
-    textAlign: "",
+    textAlign: "left", // Set this to 'left', 'right', 'center', or 'justify'
     justifyContent: "flex-end",
-    marginTop: "65%",
-    width: "60%",
-    paddingLeft: "40px",
-    lineHeight: "45px",
+    //marginTop: 260, // Use a specific pixel value based on your desired positioning
+    width: 250, // Make sure this value is appropriate for your design
+    paddingLeft: 40,
+    lineHeight: 50,
   },
   para: {
-    fontSize: "18px",
+    fontSize: 18,
     color: "#777777",
-    width: "50%",
-    paddingLeft: "40px",
-    marginTop: "10px",
-    fontFamily: "Roboto-Regular",
-    lineHeight: 22,
+    width: "80%",
+    paddingLeft: 40,
+    marginTop: 10,
+    //fontFamily: "Roboto-Regular",
+    lineHeight: 20,
+  },
+  started: {
+    textAlign: "center",
+    color: "#fff",
+    fontSize: 20,
   },
 });
 
 export default Intro2;
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "black",
+//   },
+//   imageBackground: {
+//     flex: 1,
+//     width: "100%",
+//     height: "65%",
+//   },
+//   gradient: {
+//     position: "absolute",
+//     left: 0,
+//     right: 0,
+//     bottom: "30%",
+//     height: "70%", // Adjust this value to control the gradient's height
+//   },
+//   text: {
+//     fontSize: 40,
+//     fontWeight: 900,
+//     color: "#fff",
+//     // textAlign: "",
+//     justifyContent: "flex-end",
+//     marginTop: "65%",
+//     width: 600,
+//     paddingLeft: 40,
+//     lineHeight: 45,
+//   },
+//   para: {
+//     fontSize: 18,
+//     color: "#777777",
+//     width: "50%",
+//     paddingLeft: 40,
+//     marginTop: 10,
+//     fontFamily: "Roboto-Regular",
+//     lineHeight: 22,
+//   },
+// });
