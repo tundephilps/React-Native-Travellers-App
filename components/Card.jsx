@@ -5,8 +5,10 @@ import travel from "../assets/travel.jpg";
 import travel2 from "../assets/travel2.jpg";
 import { BlurView } from "expo-blur";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-const Card = ({ imageSrc, title, location }) => {
+const Card = ({ imageSrc, title, location, data }) => {
+  const navigation = useNavigation();
   return (
     <View>
       {/* <TouchableOpacity
@@ -78,10 +80,10 @@ const Card = ({ imageSrc, title, location }) => {
       </TouchableOpacity> */}
 
       <TouchableOpacity
+        onPress={() => navigation.navigate("ItemScreen", { param: data })}
         style={{
           height: 300,
           width: "100%",
-          marginRight: 20,
           borderRadius: 8,
         }}
       >
