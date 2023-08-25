@@ -1,13 +1,9 @@
 import {
   ActivityIndicator,
-  SafeAreaView,
-  SafeAreaViewBase,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Image,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -15,6 +11,8 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import Notfound from "../assets/NotFound.png";
 //import Ionicons from "@expo/vector-icons/Ionicons";
 import { FontAwesome } from "@expo/vector-icons";
+
+import { SafeAreaView } from "react-native-safe-area-context";
 
 //import { LinearGradient } from "expo-linear-gradient";
 import Tabs from "../components/Tabs";
@@ -25,9 +23,13 @@ import { getPlacesData } from "../api";
 const Discover = () => {
   const navigation = useNavigation();
 
-  const [type, setType] = useState("resturants");
+  const [type, setType] = useState("restaurants");
   const [isLoading, setIsLoading] = useState(false);
   const [mainData, setMainData] = useState([]);
+  const [bl_lat, setBl_lat] = useState(null);
+  const [bl_lng, setBl_lng] = useState(null);
+  const [tr_lat, setTr_lat] = useState(null);
+  const [tr_lng, setTr_lng] = useState(null);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -37,13 +39,13 @@ const Discover = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    getPlacesData().then((data) => {
+    getPlacesData(bl_lat, bl_lng, tr_lat, tr_lng, type).then((data) => {
       setMainData(data);
       setInterval(() => {
         setIsLoading(false);
-      }, 2000);
+      }, 500);
     });
-  }, []);
+  }, [bl_lat, bl_lng, tr_lat, tr_lng, type]);
 
   return (
     <SafeAreaView
@@ -115,29 +117,32 @@ const Discover = () => {
         >
           <GooglePlacesAutocomplete
             GooglePlacesDetailsQuery={{ fields: "geometry" }}
+            placeholder="Search"
             fetchDetails={true}
+            onPress={(data, details = null) => {
+              // 'details' is provided when fetchDetails = true
+              console.log(details?.geometry?.viewport);
+              setBl_lat(details?.geometry?.viewport?.southwest?.lat);
+              setBl_lng(details?.geometry?.viewport?.southwest?.lng);
+              setTr_lat(details?.geometry?.viewport?.northeast?.lat);
+              setTr_lng(details?.geometry?.viewport?.northeast?.lng);
+            }}
+            query={{
+              key: "AIzaSyA01Ov1GV5GxBuXWsYgECT8qXqqZVry63I",
+              language: "en",
+            }}
             styles={{
               textInputContainer: {
                 backgroundColor: "orange !important",
-                //outline: "none",
-                //   boxShadow: "0 0px 4px rgba(0, 0, 0, 16)",
               },
               textInput: {
                 height: 38,
                 fontSize: 16,
                 color: "orange",
                 //outline: "none",
+
                 backgroundColor: "transparent",
               },
-            }}
-            placeholder="Search"
-            onPress={(data, details = null) => {
-              // 'details' is provided when fetchDetails = true
-              console.log(data, details);
-            }}
-            query={{
-              key: "AIzaSyA01Ov1GV5GxBuXWsYgECT8qXqqZVry63I",
-              language: "en",
             }}
           />
         </View>
@@ -181,8 +186,8 @@ const Discover = () => {
               setType={setType}
             />
             <Tabs
-              keys={"resturants"}
-              title="Resturants"
+              key={"restaurants"}
+              title="Restaurants"
               type={type}
               setType={setType}
             />
@@ -224,42 +229,22 @@ const Discover = () => {
               </TouchableOpacity>
             </View>
 
-            <View>
-              {mainData?.length > 0 ? (
-                <>
-                  {mainData?.map((data, i) => (
-                    <Card
-                      key={i}
-                      imageSrc={
-                        data?.photo?.images?.medium?.url
-                          ? data?.photo?.images?.medium?.url
-                          : "https://img.freepik.com/free-vector/suitcase-hat-seascape-scene_603843-3531.jpg"
-                      }
-                      title={data?.name}
-                      location={data?.location_string}
-                      data={data}
-                    />
-                  ))}
-                </>
-              ) : (
-                <>
-                  <View
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: 400,
-                      height: 500,
-                    }}
-                  >
-                    <Image
-                      resizeMode="contain"
-                      source={Notfound}
-                      style={{ width: 300, height: 400 }}
-                    />
-                  </View>
-                </>
-              )}
+            <View style={{ gap: 10 }}>
+              <>
+                {mainData?.map((data, i) => (
+                  <Card
+                    key={i}
+                    imageSrc={
+                      data?.photo?.images?.medium?.url
+                        ? data?.photo?.images?.medium?.url
+                        : "https://img.freepik.com/free-vector/suitcase-hat-seascape-scene_603843-3531.jpg"
+                    }
+                    title={data?.name}
+                    location={data?.location_string}
+                    data={data}
+                  />
+                ))}
+              </>
             </View>
           </View>
         </ScrollView>

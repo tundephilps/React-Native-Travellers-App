@@ -115,7 +115,7 @@ const ItemScreen = ({ route }) => {
                 style={{ flex: 1, marginHorizontal: 15, paddingVertical: 8 }}
               >
                 <Text style={{ color: "white", fontSize: 22 }}>
-                  {data?.price_level}
+                  {data?.price}
                 </Text>
                 <Text style={{ color: "white", fontSize: 17 }}>
                   {data?.open_now_text}
@@ -140,7 +140,8 @@ const ItemScreen = ({ route }) => {
           </BlurView>
         </Animated.View>
       </View>
-      <ScrollView>
+      {/* Details */}
+      <ScrollView style={{ paddingHorizontal: 8 }}>
         <View style={{ marginTop: 8 }}>
           <Text
             colors={["rgb(255,27,0)", "rgba(251,75,2,1)"]}
@@ -331,6 +332,7 @@ const ItemScreen = ({ route }) => {
               marginBottom: 12,
               width: 380,
               borderRadius: 10,
+              marginTop: 140,
             }}
           >
             <Text style={{ fontSize: 18, fontWeight: "400", color: "white" }}>
